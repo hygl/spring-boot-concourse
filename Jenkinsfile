@@ -1,16 +1,35 @@
 pipeline {
   agent {
-    docker {
-      image 'maven:3.6.0-jdk8'
-      args 'man/.m2:root/.m2'
+    node {
+      label 'kubernetes'
     }
 
   }
   stages {
     stage('Prep') {
+      agent {
+        node {
+          label 'kubernetes'
+        }
+
+      }
       steps {
         sh 'mvn clean '
       }
     }
+
+    stage('build') {
+      agent {
+        node {
+          label 'kubernetes'
+        }
+
+      }
+      steps {
+        sh 'mvn compile -DskipTests=true'
+        sh 'mvn test'
+      }
+    }
+
   }
 }
