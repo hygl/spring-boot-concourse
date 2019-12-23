@@ -1,18 +1,8 @@
 pipeline {
-  agent {
-    node {
-      label 'kubernetes'
-    }
-
-  }
+  agent any
   stages {
     stage('Prep') {
-      agent {
-        node {
-          label 'kubernetes'
-        }
-
-      }
+      agent any
       steps {
         sh 'mvn clean '
       }
